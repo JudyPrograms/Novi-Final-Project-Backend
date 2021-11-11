@@ -1,6 +1,6 @@
 package com.judyprograms.temperthestorm.controller;
 
-import com.judyprograms.temperthestorm.model.User;
+import com.judyprograms.temperthestorm.model.Person;
 import com.judyprograms.temperthestorm.exception.RecordNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class UserController {
+public class PersonController {
 
     //    @GetMapping("/books/{id}")
     //    public ResponseEntity<Object> getBook(@PathVariable long id) {
@@ -40,33 +40,33 @@ public class UserController {
     //        return ResponseEntity.noContent();
     //    }
 
-    private static List<User> users = new ArrayList<>();
+    private static List<Person> people = new ArrayList<>();
 
 
     @GetMapping("/users")
     public ResponseEntity getAllUsers(@RequestParam(required = false) String username) {
 //        {users : [{}, ...]}
         if (username == null) {
-            return ResponseEntity.ok(users);
+            return ResponseEntity.ok(people);
         } else {
 //            search in Arraylist with username:
             return ResponseEntity.ok(
-                    users
+                    people
                             .stream()
-                            .filter(user -> user.username.equalsIgnoreCase(username))
+                            .filter(person -> person.username.equalsIgnoreCase(username))
                             .toArray());
         }
     }
 
     @PostMapping("/users")
-    public ResponseEntity addUser(@RequestBody User user) {
-        users.add(user);
+    public ResponseEntity addUser(@RequestBody Person person) {
+        people.add(person);
 //        {username: string,
 //        email: string,
 //        password: string
 //        avatarName: "anonymous"
 //        avatarImg: blanco-avatar}
-        return ResponseEntity.ok("user " + user + " added");
+        return ResponseEntity.ok("user " + person + " added");
     }
 
     @GetMapping("/users/{id}")
@@ -77,7 +77,7 @@ public class UserController {
 //        avatarName: string,
 //        avatarImg: file}
         try {
-            return ResponseEntity.ok(users.get(id));
+            return ResponseEntity.ok(people.get(id));
         } catch (Exception ex) {
             throw new RecordNotFoundException();
         }
@@ -85,13 +85,13 @@ public class UserController {
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity deleteUser(@PathVariable int id) {
-        users.remove(id);
+        people.remove(id);
         return ResponseEntity.ok("user" + id + " removed");
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity updateUser(@PathVariable int id, @RequestBody User user) {
-        users.set(id, user);
+    public ResponseEntity updateUser(@PathVariable int id, @RequestBody Person person) {
+        people.set(id, person);
         return ResponseEntity.ok("user" + id + " updated");
     }
 
