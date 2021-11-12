@@ -1,165 +1,97 @@
 package com.judyprograms.temperthestorm.controller;
 
-import com.judyprograms.temperthestorm.model.Person;
-import com.judyprograms.temperthestorm.exception.RecordNotFoundException;
+import com.judyprograms.temperthestorm.model.User;
+import com.judyprograms.temperthestorm.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
-public class PersonController {
+public class UserController {
 
-    //    @GetMapping("/books/{id}")
-    //    public ResponseEntity<Object> getBook(@PathVariable long id) {
-    //        return ResponseEntity.ok(...);
-    //    }
-
-    //    @PostMapping("/books")
-    //    public ResponseEntity<Object> addBook(@RequestBody String title) {
-    //    ...
-    //        return ResponseEntity.created(...);
-    //    }
-
-    //    @DeleteMapping("/books/{id}")
-    //    public ResponseEntity<Object> deleteBook(@PathVariable int id) {
-    //    ...
-    //        return ResponseEntity.noContent();
-    //    }
-
-    //    @PutMapping("/books/{id}")
-    //    public ResponseEntity<Object> updateBook(@PathVariable int id, @RequestBody String title) {
-    //    ...
-    //        return ResponseEntity.noContent();
-    //    }
-
-    //    @PatchMapping("/books/{id}")
-    //    public ResponseEntity<Object> modifyBook(@PathVariable int id, @RequestBody String title) {
-    //    ...
-    //        return ResponseEntity.noContent();
-    //    }
-
-    private static List<Person> people = new ArrayList<>();
-
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/users")
-    public ResponseEntity getAllUsers(@RequestParam(required = false) String username) {
-//        {users : [{}, ...]}
-        if (username == null) {
-            return ResponseEntity.ok(people);
-        } else {
-//            search in Arraylist with username:
-            return ResponseEntity.ok(
-                    people
-                            .stream()
-                            .filter(person -> person.username.equalsIgnoreCase(username))
-                            .toArray());
-        }
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok().body(userService.getAllUsers());
+    }
+
+    @GetMapping("/users/{username}")
+    public ResponseEntity<?> getUser(@PathVariable String username) {
+        return ResponseEntity.ok().body(userService.getUser(username));
     }
 
     @PostMapping("/users")
-    public ResponseEntity addUser(@RequestBody Person person) {
-        people.add(person);
-//        {username: string,
-//        email: string,
-//        password: string
-//        avatarName: "anonymous"
-//        avatarImg: blanco-avatar}
-        return ResponseEntity.ok("user " + person + " added");
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        return ResponseEntity.ok().body(userService.createUser(user));
     }
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity getUser(@PathVariable int id) {
-        //        {username: string,
-//        email: string,
-//        password: string,
-//        avatarName: string,
-//        avatarImg: file}
-        try {
-            return ResponseEntity.ok(people.get(id));
-        } catch (Exception ex) {
-            throw new RecordNotFoundException();
-        }
+    @PutMapping("/users/{username}")
+    public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User user) {
+        userService.updateUser(username, user);
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity deleteUser(@PathVariable int id) {
-        people.remove(id);
-        return ResponseEntity.ok("user" + id + " removed");
+    @DeleteMapping("/users/{username}")
+    public ResponseEntity<?> deleteUser(@PathVariable String username) {
+        userService.deleteUser(username);
+        return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/users/{id}")
-    public ResponseEntity updateUser(@PathVariable int id, @RequestBody Person person) {
-        people.set(id, person);
-        return ResponseEntity.ok("user" + id + " updated");
+    @PatchMapping("/users/{username}/password")
+    public ResponseEntity<?> setPassword(@PathVariable String username, @RequestBody String password) {
+        userService.setPassword(username, password);
+        return ResponseEntity.noContent().build();
     }
 
 
-    @PatchMapping("/users/{id}")
-//    public ResponseEntity<Object> modifyUser(@PathVariable String id @RequestBody String avatarName) {
-    public String modifyUser(@PathVariable String id) {
-//        {username: string,
-//        email: string,
-//        password: string}
-//        avatarName: string,
-//        avatarImg:  file}
-        return "user info modified for user" + id;
-    }
+
+//    CREATE USER WITH SECURITY:
+//    @PostMapping("/users")
+//    public ResponseEntity<?> createUser(@RequestBody @Valid UserRequestDto userRequestDto) {
+//        String newUsername = userService.createUser(userRequestDto);
+//
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{username}")
+//                .buildAndExpand(newUsername)
+//                .toUri();
+//
+//        return ResponseEntity.created(location).build();
+//    }
 
 
-    @GetMapping("/users/{id}/{progress}")
-    public String getUserProgress(@PathVariable int id) {
-//        {badgeProgress: {paperwork: int, ...},
-//        level: string,
-//        coinsTotal: int,
-//        leaderboardPosition: int}
-        return "user progress object for user" + id;
-    }
 
-    @PutMapping("/users/{id}/{progress}")
-//    public String updateUserProgress(@PathVariable long id) {
-    public String updateUserProgress(@PathVariable int id) {
-//        {badgeProgress: {paperwork: int, ...},
-//        level: string,
-//        coinsTotal: int,
-//        leaderboardPosition: int}
-        return "user progress updated for user" + id;
-    }
-
-    @GetMapping("/users/{id}/current-tasks")
-    public String getUserCurrentTasks(@PathVariable int id) {
-//        {mainTask: string,
-//        subtask: string,
-//        slice: string,
-//        startDate: datetime}
-        return "current tasks object for user" + id;
-    }
-
-    @PutMapping("/users/{id}/current-tasks")
-    public String updateUserCurrentTasks(@PathVariable int id) {
-//        {mainTask: string,
-//        subtask: string,
-//        slice: string,
-//        startDate: datetime}
-        return "current tasks object for user" + id;
-    }
-
-    @GetMapping("/users/{id}/completed-tasks")
-    public String getUserCompletedTasks(@PathVariable int id) {
-//       {mainTask: string,
-//       subtask: string,
-//       slice: string,
-//       finishDate: datetime}
-        return "completed tasks object for user" + id;
-    }
-
-    @PutMapping("/users/{id}/completed-tasks")
-    public String updateUserCompletedTasks(@PathVariable int id) {
-//       {mainTask: string,
-//       subtask: string,
-//       slice: string,
-//       finishDate: datetime}
-        return "completed tasks object for user" + id;
-    }
+//      ENDPOINTS VOOR PLAYER CONTROLLER
+//    @GetMapping("/users/{id}/{progress}")
+//    public String getUserProgress(@PathVariable int id) {
+//        return "user progress object for user" + id;
+//    }
+//
+//    @PutMapping("/users/{id}/{progress}")
+//    public String updateUserProgress(@PathVariable int id) {
+//        return "user progress updated for user" + id;
+//    }
+//
+//    @GetMapping("/users/{id}/current-tasks")
+//    public String getUserCurrentTasks(@PathVariable int id) {
+//        return "current tasks object for user" + id;
+//    }
+//
+//    @PutMapping("/users/{id}/current-tasks")
+//    public String updateUserCurrentTasks(@PathVariable int id) {
+//        return "current tasks object for user" + id;
+//    }
+//
+//    @GetMapping("/users/{id}/completed-tasks")
+//    public String getUserCompletedTasks(@PathVariable int id) {
+//        return "completed tasks object for user" + id;
+//    }
+//
+//    @PutMapping("/users/{id}/completed-tasks")
+//    public String updateUserCompletedTasks(@PathVariable int id) {
+//        return "completed tasks object for user" + id;
+//    }
 }

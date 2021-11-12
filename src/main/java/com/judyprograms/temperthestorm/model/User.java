@@ -1,17 +1,25 @@
 package com.judyprograms.temperthestorm.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity
-public class Person {
+@Entity(name = "users")
+public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
+    @Column(nullable = false, unique = true, length = 20)
     public String username;
+
+    @Column(nullable = false, unique = true)
     public String email;
+
+    @Column(nullable = false)
     public String password;
+
+    public Boolean admin;
+
 
 //    getters and setters:
 
@@ -45,5 +53,13 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
 }

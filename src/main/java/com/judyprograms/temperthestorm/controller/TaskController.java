@@ -27,18 +27,18 @@ public class TaskController {
         return "all existing tasks";
     }
 
-    @PatchMapping("/tasks?taskname={taskName}")
-    public String modifyTask(@RequestParam String taskname) {
+    @PatchMapping("/tasks?taskName={taskName}")
+    public String modifyTask(@RequestParam String taskName) {
 //        {tasks: [{}, ...]}
-        return taskname + " modified";
+        return taskName + " modified";
     }
 
-    @GetMapping("/tasks?taskname={taskName}")
-    public String getTask(@RequestParam String taskname) {
+    @GetMapping("/tasks?taskName={taskName}")
+    public String getTask(@RequestParam String taskName) {
 //        {taskName: string,
 //        badge: string,
 //        subtasks: {string: [], ...}}
-        return "task info for: " + taskname;
+        return "task info for: " + taskName;
     }
 
     @GetMapping("/subtasks?taskName={taskName}")
