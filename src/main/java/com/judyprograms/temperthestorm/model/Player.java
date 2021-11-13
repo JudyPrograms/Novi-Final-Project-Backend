@@ -13,20 +13,21 @@ public class Player {
 
     @Id
     @Column(name = "user_id")
-    private long id;
+    private Long id;
+
 
     @Column
-    private long totalPoints;
+    private Long totalPoints;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "level_id", nullable = false)
+    @JoinColumn(name = "level_id")
     @JsonManagedReference
     private Level level;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "avatar_id", nullable = false)
-    @JsonManagedReference
-    private Avatar avatar;
+//    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+//    @JoinColumn(name = "avatar_id", nullable = false)
+//    @JsonManagedReference
+//    private Avatar avatar;
 
 
 //    @OneToMany
@@ -48,26 +49,25 @@ public class Player {
 
 // /////// CONSTRUCTOR
 
-//    KAN IK HIERMEE INITIËLE WAARDEN MEEGEVEN ALS EEN PLAYER
-//    AANGEMAAKT WORDT VOOR EEN NIEUWE USER?
-//    public Player(long totalPoints, double subtaskCount) {
-//      ,Avatar avatar, Level level, List<Slice> currentSlices, List<Slice> completedSlices) {
-//        this.totalPoints = totalPoints;
-//        this.subtaskCount = subtaskCount;
-//        this.avatar = avatar;
-//        this.level = level;
-//        this.currentSlices = currentSlices;
-//        this.completedSlices = completedSlices;
-//    }
+    public Player() {
+    }
+
+    public Player(Long id, Long totalPoints, Level level, double subtaskCount, User user) {
+        this.id = id;
+        this.totalPoints = totalPoints;
+        this.level = level;
+        this.subtaskCount = subtaskCount;
+        this.user = user;
+    }
 
 // /////// GETTERS & SETTERS
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -87,13 +87,13 @@ public class Player {
         this.level = level;
     }
 
-    public Avatar getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Avatar avatar) {
-        this.avatar = avatar;
-    }
+//    public Avatar getAvatar() {
+//        return avatar;
+//    }
+//
+//    public void setAvatar(Avatar avatar) {
+//        this.avatar = avatar;
+//    }
 
 //    public List<Slice> getCurrentSlices() {
 //        return currentSlices;

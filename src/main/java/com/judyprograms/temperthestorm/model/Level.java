@@ -13,10 +13,10 @@ public class Level {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "level_id")
-    private long id;
+    private Long id;
 
     @Column
-    private long number;
+    private int number;
 
     @Column
     private String name;
@@ -27,9 +27,19 @@ public class Level {
     @JsonBackReference
     private List<Player> players;
 
+// /////// CONSTRUCTOR
 
-    // /////// GETTERS & SETTERS
+    public Level (){
+    }
 
+    public Level(Long id, int number, String name, List<Player> players) {
+        this.id = id;
+        this.number = number;
+        this.name = name;
+        this.players = players;
+    }
+
+// /////// GETTERS & SETTERS
 
     public long getId() {
         return id;
@@ -43,7 +53,7 @@ public class Level {
         return number;
     }
 
-    public void setNumber(long number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
@@ -53,5 +63,13 @@ public class Level {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 }

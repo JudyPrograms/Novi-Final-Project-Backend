@@ -17,12 +17,13 @@ public class PlayerService {
         return playerRepository.findById(id);
     }
 
-    public String createPlayer(long userId) {
-        Player player = new Player();
-        player.setId(userId);
-        Player savedPlayer = playerRepository.save(player);
-        return (savedPlayer.getAvatar().getName());
-    }
+//    public String createPlayer(long userId) {
+//        Player player = new Player();
+//        player.setId(userId);
+//        Player savedPlayer = playerRepository.save(player);
+//        return "created:" + savedPlayer.getId();
+////        return (savedPlayer.getAvatar().getName());
+//    }
 
 //    Een user met 'lege' player die al aan elkaar gekoppeld zijn (?) of anders
 //    eerst gekoppeld moet worden, van die user de player waardes initiëren:

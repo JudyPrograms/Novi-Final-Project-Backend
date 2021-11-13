@@ -14,7 +14,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 20)
     private String username;
@@ -28,7 +28,7 @@ public class User {
     @Column
     private Boolean admin;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user",  cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     @JsonBackReference
     private Player player;
@@ -36,11 +36,12 @@ public class User {
 
     // /////// GETTERS & SETTERS
 
-    public long getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

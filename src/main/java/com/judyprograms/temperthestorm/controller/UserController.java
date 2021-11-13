@@ -9,7 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-
+//@CrossOrigin(Origins ="http://localhost:3000")
 @RestController
 public class UserController {
 
@@ -27,25 +27,32 @@ public class UserController {
     }
 
 //    SIMPELE VERSIE:
-//    @PostMapping("/users")
-//    public ResponseEntity<?> createUser(@RequestBody User user) {
-//        return ResponseEntity.ok().body(userService.createUser(user));
-//    }
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody User user) {
-//        DTO CLASS WERKT NOG NIET:
-//    (@RequestBody @Valid UserRequestDto userRequestDto) {
-        String newUsername  = userService.createUser(user);
-//        String newUsername = userService.createUser(userRequestDto);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{username}")
-                .buildAndExpand(newUsername)
-                .toUri();
-
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.ok().body(userService.createUser(user));
     }
+
+//    @PostMapping("/users")
+//    public ResponseEntity<Object> createUser(@RequestBody User user) {
+////        DTO CLASS WERKT NOG NIET:
+////    (@RequestBody @Valid UserRequestDto userRequestDto) {
+//        String newUsername  = userService.createUser(user);
+////        String newUsername = userService.createUser(userRequestDto);
+//
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{username}")
+//                .buildAndExpand(newUsername)
+//                .toUri();
+//
+//        return ResponseEntity.created(location).build();
+//    }
+//@PostMapping("/employees")
+//Employee newEmployee(@RequestBody Employee newEmployee) {
+//    return repository.save(newEmployee);
+//}
+
+
 
     @PutMapping("/users/{username}")
     public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User user) {

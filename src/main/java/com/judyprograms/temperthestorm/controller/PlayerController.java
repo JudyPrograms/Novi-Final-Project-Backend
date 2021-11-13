@@ -21,17 +21,17 @@ public class PlayerController {
         return ResponseEntity.ok().body(playerService.getPlayer(id));
     }
 
-    @PostMapping("/players")
-    public ResponseEntity<?> createPlayer(@PathVariable long userId) {
-    String newPlayer = playerService.createPlayer(userId);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{name}")
-                .buildAndExpand(newPlayer)
-                .toUri();
-
-        return ResponseEntity.created(location).build();
-    }
+//    @PostMapping("/players")
+//    public ResponseEntity<?> createPlayer(@PathVariable long userId) {
+//    String newPlayer = playerService.createPlayer(userId);
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{name}")
+//                .buildAndExpand(newPlayer)
+//                .toUri();
+//
+//        return ResponseEntity.created(location).build();
+//    }
 
         @PutMapping("/players/{id")
     public ResponseEntity<?> updateNewPlayer(@PathVariable long id, @RequestBody Player player) {

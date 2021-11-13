@@ -23,6 +23,7 @@ VALUES
 ('Newby', 'newby@gmail.com', '!Qwer1234', FALSE),
 ('Experienced', 'exp@gmail.com', '!Qwer1234', FALSE);
 
-INSERT INTO players (user_id, subtask_count, total_points, avatar_id, level_id)
-VALUES (3, 2.3, 76, 3, 2);
+--INSERT INTO players (user_id, subtask_count, total_points, avatar_id, level_id)
+INSERT INTO players (user_id, subtask_count, total_points, level_id)
+VALUES (3, 2.3, 76, 2);
 

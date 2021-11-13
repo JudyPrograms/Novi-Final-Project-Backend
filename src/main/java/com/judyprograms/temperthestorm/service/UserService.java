@@ -2,6 +2,8 @@ package com.judyprograms.temperthestorm.service;
 
 import com.judyprograms.temperthestorm.exception.InvalidPasswordException;
 import com.judyprograms.temperthestorm.exception.UserNotFoundException;
+import com.judyprograms.temperthestorm.model.Level;
+import com.judyprograms.temperthestorm.model.Player;
 import com.judyprograms.temperthestorm.model.User;
 import com.judyprograms.temperthestorm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,14 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+//    DEZE WERKT NIET:
     public String createUser(User user) {
-       User savedUser = userRepository.save(user);
-        return savedUser.getUsername();
+        Level newLevel = new Level();
+        Player newPlayer = new Player();
+        newPlayer.setLevel(newLevel);
+        user.setPlayer(newPlayer);
+        User savedUser = userRepository.save(user);
+        return savedUser.getUsername() + " created";
     }
 
     public void updateUser(String username, User newUser) {
@@ -44,8 +51,6 @@ public class UserService {
         }
     }
 
-
-//
     public void deleteUser(String username) {
         if (userRepository.existsByUsername(username)) {
             userRepository.deleteByUsername(username);

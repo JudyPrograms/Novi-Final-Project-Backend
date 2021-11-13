@@ -13,7 +13,7 @@ public class Avatar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "avatar_id")
-    private long id;
+    private Long id;
 
     @Column
     private String name;
@@ -24,11 +24,11 @@ public class Avatar {
     @Column
     private String imgLocation;
 
-    @OneToMany(mappedBy = "avatar",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    @JsonBackReference
-    private List<Player> players;
+//    @OneToMany(mappedBy = "avatar",
+//            fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    @JsonBackReference
+//    private List<Player> players;
 
 
     // /////// GETTERS & SETTERS
