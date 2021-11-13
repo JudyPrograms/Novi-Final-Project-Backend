@@ -25,8 +25,8 @@ public class UserService {
     }
 
     public String createUser(User user) {
-        userRepository.save(user);
-        return "user added: " + user;
+       User savedUser = userRepository.save(user);
+        return savedUser.getUsername();
     }
 
     public void updateUser(String username, User newUser) {

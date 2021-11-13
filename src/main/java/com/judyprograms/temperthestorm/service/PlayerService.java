@@ -1,8 +1,6 @@
 package com.judyprograms.temperthestorm.service;
 
-import com.judyprograms.temperthestorm.exception.UserNotFoundException;
 import com.judyprograms.temperthestorm.model.Player;
-import com.judyprograms.temperthestorm.model.User;
 import com.judyprograms.temperthestorm.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +15,13 @@ public class PlayerService {
 
     public Optional<Player> getPlayer(long id) {
         return playerRepository.findById(id);
+    }
+
+    public String createPlayer(long userId) {
+        Player player = new Player();
+        player.setId(userId);
+        Player savedPlayer = playerRepository.save(player);
+        return (savedPlayer.getAvatar().getName());
     }
 
 //    Een user met 'lege' player die al aan elkaar gekoppeld zijn (?) of anders

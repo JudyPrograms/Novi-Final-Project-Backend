@@ -1,10 +1,11 @@
 package com.judyprograms.temperthestorm.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "players")
@@ -17,8 +18,10 @@ public class Player {
     @Column
     private long totalPoints;
 
-//    @Column
-//    private Level level;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "level_id", nullable = false)
+    @JsonManagedReference
+    private Level level;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "avatar_id", nullable = false)
@@ -40,6 +43,7 @@ public class Player {
     @OneToOne
     @MapsId
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
 
 // /////// CONSTRUCTOR
@@ -75,13 +79,13 @@ public class Player {
         this.totalPoints = totalPoints;
     }
 
-//    public Level getLevel() {
-//        return level;
-//    }
-//
-//    public void setLevel(Level level) {
-//        this.level = level;
-//    }
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
 
     public Avatar getAvatar() {
         return avatar;

@@ -1,5 +1,10 @@
 package com.judyprograms.temperthestorm.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,14 +25,16 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column
     private Boolean admin;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    @JsonBackReference
     private Player player;
 
 
-//    getters and setters:
+    // /////// GETTERS & SETTERS
 
     public long getId() {
         return id;
