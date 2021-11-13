@@ -30,6 +30,8 @@ public class Avatar {
     private List<Player> players;
 
 
+    // /////// GETTERS & SETTERS
+
     public long getId() {
         return id;
     }

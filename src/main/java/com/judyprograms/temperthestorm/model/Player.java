@@ -32,6 +32,8 @@ public class Player {
 //    @OneToMany
 //    private List<Slice> completedSlices = new ArrayList<>();
 
+//    KLOPT NOG NIET: dit moet een object met 4 private double counts worden,
+//    nl voor iedere MainTask
     @Column
     private double subtaskCount;
 

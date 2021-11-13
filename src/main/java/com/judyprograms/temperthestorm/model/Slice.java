@@ -10,4 +10,8 @@ public class Slice {
 
 //    @ManyToOne
     public Subtask subtask;
+
+
+    // /////// GETTERS & SETTERS
+
 }

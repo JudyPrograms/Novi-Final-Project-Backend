@@ -3,7 +3,7 @@ package com.judyprograms.temperthestorm.model;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-public class Game {
+public class GameRules {
 
     public long pointsPerLevel;
     public long completedSubtasksPerBadge;

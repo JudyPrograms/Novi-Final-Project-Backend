@@ -16,4 +16,8 @@ public class Subtask {
 
 //    @OneToMany
 //    public List<Slice> slices;
+
+
+    // /////// GETTERS & SETTERS
+
 }
