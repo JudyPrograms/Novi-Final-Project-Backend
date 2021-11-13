@@ -2,23 +2,29 @@ package com.judyprograms.temperthestorm.model;
 
 import javax.persistence.*;
 
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    @Column(name = "id")
+    private long id;
 
     @Column(nullable = false, unique = true, length = 20)
-    public String username;
+    private String username;
 
     @Column(nullable = false, unique = true)
-    public String email;
+    private String email;
 
     @Column(nullable = false)
-    public String password;
+    private String password;
 
-    public Boolean admin;
+    private Boolean admin;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Player player;
 
 
 //    getters and setters:
@@ -61,5 +67,13 @@ public class User {
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

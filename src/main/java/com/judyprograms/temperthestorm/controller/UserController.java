@@ -5,6 +5,9 @@ import com.judyprograms.temperthestorm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 
 @RestController
@@ -23,9 +26,25 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUser(username));
     }
 
+//    SIMPELE VERSIE:
+//    @PostMapping("/users")
+//    public ResponseEntity<?> createUser(@RequestBody User user) {
+//        return ResponseEntity.ok().body(userService.createUser(user));
+//    }
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody User user) {
-        return ResponseEntity.ok().body(userService.createUser(user));
+//        DTO CLASS WERKT NOG NIET:
+//    (@RequestBody @Valid UserRequestDto userRequestDto) {
+        String newUsername  = userService.createUser(user);
+//        String newUsername = userService.createUser(userRequestDto);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{username}")
+                .buildAndExpand(newUsername)
+                .toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/users/{username}")
@@ -45,22 +64,6 @@ public class UserController {
         userService.setPassword(username, password);
         return ResponseEntity.noContent().build();
     }
-
-
-
-//    CREATE USER WITH SECURITY:
-//    @PostMapping("/users")
-//    public ResponseEntity<?> createUser(@RequestBody @Valid UserRequestDto userRequestDto) {
-//        String newUsername = userService.createUser(userRequestDto);
-//
-//        URI location = ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{username}")
-//                .buildAndExpand(newUsername)
-//                .toUri();
-//
-//        return ResponseEntity.created(location).build();
-//    }
 
 
 
