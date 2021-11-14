@@ -31,7 +31,7 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody User user) {
         return ResponseEntity.ok().body(userService.createUser(user));
     }
-
+//      UITGEBREIDE VERSIE:
 //    @PostMapping("/users")
 //    public ResponseEntity<Object> createUser(@RequestBody User user) {
 ////        DTO CLASS WERKT NOG NIET:
@@ -47,11 +47,6 @@ public class UserController {
 //
 //        return ResponseEntity.created(location).build();
 //    }
-//@PostMapping("/employees")
-//Employee newEmployee(@RequestBody Employee newEmployee) {
-//    return repository.save(newEmployee);
-//}
-
 
 
     @PutMapping("/users/{username}")
@@ -61,8 +56,8 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{username}")
-    public ResponseEntity<?> deleteUser(@PathVariable String username) {
-        userService.deleteUser(username);
+    public ResponseEntity<?> removeUser(@PathVariable String username) {
+        userService.removeUser(username);
         return ResponseEntity.noContent().build();
     }
 
@@ -72,36 +67,4 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-
-
-//      ENDPOINTS VOOR PLAYER CONTROLLER
-//    @GetMapping("/users/{id}/{progress}")
-//    public String getUserProgress(@PathVariable int id) {
-//        return "user progress object for user" + id;
-//    }
-//
-//    @PutMapping("/users/{id}/{progress}")
-//    public String updateUserProgress(@PathVariable int id) {
-//        return "user progress updated for user" + id;
-//    }
-//
-//    @GetMapping("/users/{id}/current-tasks")
-//    public String getUserCurrentTasks(@PathVariable int id) {
-//        return "current tasks object for user" + id;
-//    }
-//
-//    @PutMapping("/users/{id}/current-tasks")
-//    public String updateUserCurrentTasks(@PathVariable int id) {
-//        return "current tasks object for user" + id;
-//    }
-//
-//    @GetMapping("/users/{id}/completed-tasks")
-//    public String getUserCompletedTasks(@PathVariable int id) {
-//        return "completed tasks object for user" + id;
-//    }
-//
-//    @PutMapping("/users/{id}/completed-tasks")
-//    public String updateUserCompletedTasks(@PathVariable int id) {
-//        return "completed tasks object for user" + id;
-//    }
 }

@@ -7,7 +7,7 @@ VALUES
 ('Takeda', 'The Persistent', ''),
 ('Toyotomi', 'The Embracing', '');
 
-INSERT INTO levels (number, name)
+INSERT INTO levels (level_number, name)
 VALUES
 (1, 'Hurricane'),
 (2, 'Tornado'),
@@ -24,6 +24,6 @@ VALUES
 ('Experienced', 'exp@gmail.com', '!Qwer1234', FALSE);
 
 --INSERT INTO players (user_id, subtask_count, total_points, avatar_id, level_id)
-INSERT INTO players (user_id, subtask_count, total_points, level_id)
-VALUES (3, 2.3, 76, 2);
+INSERT INTO players (user_id, subtask_count, total_points, level_number, avatar_name)
+VALUES (3, 2.3, 76, 2, 'Myamoto');
 

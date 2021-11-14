@@ -2,7 +2,6 @@ package com.judyprograms.temperthestorm.service;
 
 import com.judyprograms.temperthestorm.exception.InvalidPasswordException;
 import com.judyprograms.temperthestorm.exception.UserNotFoundException;
-import com.judyprograms.temperthestorm.model.Level;
 import com.judyprograms.temperthestorm.model.Player;
 import com.judyprograms.temperthestorm.model.User;
 import com.judyprograms.temperthestorm.repository.UserRepository;
@@ -26,12 +25,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-//    DEZE WERKT NIET:
     public String createUser(User user) {
-        Level newLevel = new Level();
-        Player newPlayer = new Player();
-        newPlayer.setLevel(newLevel);
-        user.setPlayer(newPlayer);
+//        HOE KAN IK HIER EEN DEFAULT WAARDEN PLAYER INITIALISEREN?
+//        Player newPlayer = new Player();
+//        user.setPlayer(newPlayer);
         User savedUser = userRepository.save(user);
         return savedUser.getUsername() + " created";
     }
@@ -51,7 +48,7 @@ public class UserService {
         }
     }
 
-    public void deleteUser(String username) {
+    public void removeUser(String username) {
         if (userRepository.existsByUsername(username)) {
             userRepository.deleteByUsername(username);
         } else {

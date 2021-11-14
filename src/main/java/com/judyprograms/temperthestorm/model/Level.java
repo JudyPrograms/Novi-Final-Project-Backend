@@ -1,10 +1,6 @@
 package com.judyprograms.temperthestorm.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "levels")
@@ -12,49 +8,39 @@ public class Level {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "level_id")
+//    @Column(name = "level_id")
     private Long id;
 
     @Column
-    private int number;
+    private Long levelNumber;
 
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "level",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    @JsonBackReference
-    private List<Player> players;
+//    @OneToMany(mappedBy = "level",
+//            fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    @JsonBackReference
+//    @JsonIgnore
+//    private List<Player> players;
 
-// /////// CONSTRUCTOR
-
-    public Level (){
-    }
-
-    public Level(Long id, int number, String name, List<Player> players) {
-        this.id = id;
-        this.number = number;
-        this.name = name;
-        this.players = players;
-    }
 
 // /////// GETTERS & SETTERS
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getNumber() {
-        return number;
+    public Long getLevelNumber() {
+        return levelNumber;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setLevelNumber(Long levelNumber) {
+        this.levelNumber = levelNumber;
     }
 
     public String getName() {
@@ -63,13 +49,5 @@ public class Level {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(List<Player> players) {
-        this.players = players;
     }
 }
