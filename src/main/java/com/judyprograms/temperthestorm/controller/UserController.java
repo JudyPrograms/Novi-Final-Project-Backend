@@ -17,53 +17,39 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users")
-    public ResponseEntity<?> getAllUsers() {
-        return ResponseEntity.ok().body(userService.getAllUsers());
+    public ResponseEntity<Object> getUsers() {
+        return ResponseEntity.ok().body(userService.getUsers());
     }
 
     @GetMapping("/users/{username}")
-    public ResponseEntity<?> getUser(@PathVariable String username) {
+    public ResponseEntity<Object> getUser(@PathVariable String username) {
         return ResponseEntity.ok().body(userService.getUser(username));
     }
 
-//    SIMPELE VERSIE:
     @PostMapping("/users")
-    public ResponseEntity<?> createUser(@RequestBody User user) {
-        return ResponseEntity.ok().body(userService.createUser(user));
-    }
-//      UITGEBREIDE VERSIE:
-//    @PostMapping("/users")
-//    public ResponseEntity<Object> createUser(@RequestBody User user) {
-////        DTO CLASS WERKT NOG NIET:
-////    (@RequestBody @Valid UserRequestDto userRequestDto) {
-//        String newUsername  = userService.createUser(user);
-////        String newUsername = userService.createUser(userRequestDto);
-//
-//        URI location = ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{username}")
-//                .buildAndExpand(newUsername)
-//                .toUri();
-//
-//        return ResponseEntity.created(location).build();
-//    }
+    public ResponseEntity<Object> createUser(@RequestBody User user) {
 
+        String newUsername = userService.createUser(user);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}").buildAndExpand(newUsername).toUri();
 
-    @PutMapping("/users/{username}")
-    public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User user) {
-        userService.updateUser(username, user);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.created(location).build();
     }
 
     @DeleteMapping("/users/{username}")
-    public ResponseEntity<?> removeUser(@PathVariable String username) {
+    public ResponseEntity<Object> removeUser(@PathVariable String username) {
         userService.removeUser(username);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/users/{username}/password")
-    public ResponseEntity<?> setPassword(@PathVariable String username, @RequestBody String password) {
-        userService.setPassword(username, password);
+    @PutMapping("/users/{username}")
+    public ResponseEntity<Object> updateUser(@PathVariable String username, @RequestBody User user) {
+        userService.updateUser(username, user);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/users/{username}")
+    public ResponseEntity<Object> partialUpdateUser(@PathVariable String username, @RequestBody User user) {
+        userService.partialUpdateUser(username, user);
         return ResponseEntity.noContent().build();
     }
 

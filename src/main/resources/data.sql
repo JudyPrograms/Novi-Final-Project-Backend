@@ -17,13 +17,13 @@ VALUES
 
 
 -- TEST USER DATA
-INSERT INTO users (username, email, password, admin)
+INSERT INTO users (username, email, password, is_admin)
 VALUES
 ('UserOne', 'user1@gmail.com', '!Qwer1234', TRUE),
 ('Newby', 'newby@gmail.com', '!Qwer1234', FALSE),
 ('Experienced', 'exp@gmail.com', '!Qwer1234', FALSE);
 
 --INSERT INTO players (user_id, subtask_count, total_points, avatar_id, level_id)
-INSERT INTO players (user_id, subtask_count, total_points, level_number, avatar_name)
-VALUES (3, 2.3, 76, 2, 'Myamoto');
+--INSERT INTO players (user_id, subtask_count, total_points, level_number, avatar_name)
+--VALUES (3, 2.3, 76, 2, 'Myamoto');
 

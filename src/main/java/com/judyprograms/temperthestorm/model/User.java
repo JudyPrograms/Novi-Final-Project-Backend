@@ -23,15 +23,15 @@ public class User {
     private String password;
 
     @Column
-    private Boolean admin;
+    private Boolean isAdmin;
 
-    @OneToOne(mappedBy = "user",  cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    @JsonBackReference
-    private Player player;
+//    @OneToOne(mappedBy = "user",  cascade = CascadeType.ALL)
+//    @PrimaryKeyJoinColumn
+//    @JsonBackReference
+//    private Player player;
 
 
-    // /////// GETTERS & SETTERS
+    // GETTERS & SETTERS
 
     public Long getId() {
         return id;
@@ -66,18 +66,18 @@ public class User {
     }
 
     public Boolean getAdmin() {
-        return admin;
+        return isAdmin;
     }
 
     public void setAdmin(Boolean admin) {
-        this.admin = admin;
+        isAdmin = admin;
     }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
+//
+//    public Player getPlayer() {
+//        return player;
+//    }
+//
+//    public void setPlayer(Player player) {
+//        this.player = player;
+//    }
 }

@@ -31,10 +31,10 @@ public class Player {
 //    @JsonManagedReference
 //    private Level level;
 
-//    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-//    @JoinColumn(name = "avatar_id", nullable = false)
-//    @JsonManagedReference
-//    private Avatar avatar;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "avatar_id", nullable = false)
+    @JsonManagedReference
+    private Avatar avatar;
 
 //    @OneToMany
 //    private List<Slice> currentSlices = new ArrayList<>();
@@ -51,6 +51,7 @@ public class Player {
 
 // /////// CONSTRUCTORS
 
+//    Dit is niet handig in de klasse, maar beter in de service laag van de User:
 //    public Player(Long id, Long totalPoints, double subtaskCount, Long levelNumber, String avatarName, User user) {
 //        this.id = id;
 //        this.totalPoints = totalPoints;

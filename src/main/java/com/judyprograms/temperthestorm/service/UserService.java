@@ -1,13 +1,16 @@
 package com.judyprograms.temperthestorm.service;
 
 import com.judyprograms.temperthestorm.exception.InvalidPasswordException;
+import com.judyprograms.temperthestorm.exception.RecordNotFoundException;
 import com.judyprograms.temperthestorm.exception.UserNotFoundException;
 import com.judyprograms.temperthestorm.model.Player;
 import com.judyprograms.temperthestorm.model.User;
 import com.judyprograms.temperthestorm.repository.UserRepository;
+import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 
@@ -17,7 +20,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Iterable<User> getAllUsers() {
+    public Iterable<User> getUsers() {
         return userRepository.findAll();
     }
 
@@ -29,25 +32,12 @@ public class UserService {
 //        HOE KAN IK HIER EEN DEFAULT WAARDEN PLAYER INITIALISEREN?
 //        Player newPlayer = new Player();
 //        user.setPlayer(newPlayer);
+//        Dit moet zo: user.setLevel
         User savedUser = userRepository.save(user);
-        return savedUser.getUsername() + " created";
+        return savedUser.getUsername();
     }
 
-    public void updateUser(String username, User newUser) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if (userOptional.isEmpty()) {
-            throw new UserNotFoundException(username);
-        } else {
-            User user = userOptional.get();
-            user.setUsername(newUser.getUsername());
-            user.setPassword(newUser.getPassword());
-//            user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-            user.setEmail(newUser.getEmail());
-//            user.setEnabled(newUser.isEnabled());
-            userRepository.save(user);
-        }
-    }
-
+    @Transactional
     public void removeUser(String username) {
         if (userRepository.existsByUsername(username)) {
             userRepository.deleteByUsername(username);
@@ -55,6 +45,65 @@ public class UserService {
             throw new UserNotFoundException(username);
         }
     }
+
+    public void updateUser(String username, User newUser) {
+        if (!userRepository.existsByUsername(username)) {
+//            TODO: er komt hier een 500 error ipv eigen exception > wat gaat hier mis?
+            throw new UserNotFoundException(username);
+        } else {
+            User user = userRepository.findByUsername(username).get();
+            user.setUsername(newUser.getUsername());
+            user.setPassword(newUser.getPassword());
+//            user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            user.setEmail(newUser.getEmail());
+//            user.setEnabled(newUser.isEnabled());
+            user.setAdmin(newUser.getAdmin());
+            userRepository.save(user);
+        }
+    }
+
+//    TODO: Patch request werkt nog niet > error 500 "NullPointerException" als ik 1 veld meegeef, "Not Unique" als ik alle velden meegeef
+    public void partialUpdateUser (String username, User user) {
+        if (!userRepository.existsByUsername(username)) throw new RecordNotFoundException();
+        User existingUser = userRepository.findByUsername(username).get();
+        if (!user.getUsername().isEmpty()) {
+            existingUser.setUsername(user.getUsername());
+        }
+        if (!user.getEmail().isEmpty()) {
+            existingUser.setEmail(user.getEmail());
+        }
+        if (!user.getPassword().isEmpty()) {
+            existingUser.setPassword(user.getPassword());
+        }
+//        TODO: checken of dit werkt met een boolean
+        if (!user.getAdmin() == existingUser.getAdmin()) {
+            existingUser.setAdmin(user.getAdmin());
+        }
+        userRepository.save(user);
+    }
+
+
+//    EXAMPLE FOR PASSWORD CHECK:
+//    public void updatePassword(String username, String password) {
+////        if (username.equals(getCurrentUsername())) {
+//        if (isValidPassword(password)) {
+//            Optional<User> userOptional = userRepository.findByUsername(username);
+//            if (userOptional.isPresent()) {
+//                User user = userOptional.get();
+//                user.setPassword(password);
+////                    user.setPassword(passwordEncoder.encode(password));
+//                userRepository.save(user);
+//            } else {
+//                throw new UserNotFoundException(username);
+//            }
+//        } else {
+//            throw new InvalidPasswordException();
+//        }
+////        } else {
+////            throw new NotAuthorizedException();
+////        }
+//    }
+
 
 //    private String getCurrentUsername() {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -74,34 +123,13 @@ public class UserService {
         long countUpper = password.chars().filter(ch -> ch >= 'A' && ch <= 'Z').count();
         long countSpecial = password.chars().filter(ch -> SPECIAL_CHARS.indexOf(ch) >= 0).count();
 
-        boolean validPassword = true;
-        if (password.length() < MIN_LENGTH) validPassword = false;
+        boolean validPassword = password.length() >= MIN_LENGTH;
         if (countLower < MIN_LOWER) validPassword = false;
         if (countUpper < MIN_UPPER) validPassword = false;
         if (countDigit < MIN_DIGITS) validPassword = false;
         if (countSpecial < MIN_SPECIAL) validPassword = false;
 
         return validPassword;
-    }
-
-    public void setPassword(String username, String password) {
-//        if (username.equals(getCurrentUsername())) {
-            if (isValidPassword(password)) {
-                Optional<User> userOptional = userRepository.findByUsername(username);
-                if (userOptional.isPresent()) {
-                    User user = userOptional.get();
-                    user.setPassword(password);
-//                    user.setPassword(passwordEncoder.encode(password));
-                    userRepository.save(user);
-                } else {
-                    throw new UserNotFoundException(username);
-                }
-            } else {
-                throw new InvalidPasswordException();
-            }
-//        } else {
-//            throw new NotAuthorizedException();
-//        }
     }
 
 
