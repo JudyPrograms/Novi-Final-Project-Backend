@@ -49,23 +49,6 @@ public class Player {
     private User user;
 
 
-// /////// CONSTRUCTORS
-
-//    Dit is niet handig in de klasse, maar beter in de service laag van de User:
-//    public Player(Long id, Long totalPoints, double subtaskCount, Long levelNumber, String avatarName, User user) {
-//        this.id = id;
-//        this.totalPoints = totalPoints;
-//        this.subtaskCount = subtaskCount;
-//        this.levelNumber = levelNumber;
-//        this.avatarName = avatarName;
-//        this.user = user;
-//    }
-//
-//    public Player(Long id, User user) {
-//        this(id, 0L, 0, 1L, "Warrior", user);
-//    }
-
-
 // /////// GETTERS & SETTERS
 
     public Long getId() {

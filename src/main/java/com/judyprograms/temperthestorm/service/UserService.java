@@ -25,7 +25,11 @@ public class UserService {
     }
 
     public Optional<User> getUser(String username) {
-        return userRepository.findByUsername(username);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            return userRepository.findByUsername(username);
+        }
+        else throw new UserNotFoundException(username);
     }
 
     public String createUser(User user) {
@@ -33,13 +37,16 @@ public class UserService {
 //        Player newPlayer = new Player();
 //        user.setPlayer(newPlayer);
 //        Dit moet zo: user.setLevel
+//        Kun je hiervoor de players repository met autowired gebruiken? Player newPlayer = playerRepository.save(player)?
+//        > Zie vraag in college 18/11/21 @1:07:38
         User savedUser = userRepository.save(user);
         return savedUser.getUsername();
     }
 
     @Transactional
     public void removeUser(String username) {
-        if (userRepository.existsByUsername(username)) {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) {
             userRepository.deleteByUsername(username);
         } else {
             throw new UserNotFoundException(username);
@@ -47,11 +54,9 @@ public class UserService {
     }
 
     public void updateUser(String username, User newUser) {
-        if (!userRepository.existsByUsername(username)) {
-//            TODO: er komt hier een 500 error ipv eigen exception > wat gaat hier mis?
-            throw new UserNotFoundException(username);
-        } else {
-            User user = userRepository.findByUsername(username).get();
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
             user.setUsername(newUser.getUsername());
             user.setPassword(newUser.getPassword());
 //            user.setPassword(passwordEncoder.encode(newUser.getPassword()));
@@ -59,27 +64,32 @@ public class UserService {
 //            user.setEnabled(newUser.isEnabled());
             user.setAdmin(newUser.getAdmin());
             userRepository.save(user);
+        } else {
+            throw new UserNotFoundException(username);
         }
     }
 
-//    TODO: Patch request werkt nog niet > error 500 "NullPointerException" als ik 1 veld meegeef, "Not Unique" als ik alle velden meegeef
-    public void partialUpdateUser (String username, User user) {
-        if (!userRepository.existsByUsername(username)) throw new RecordNotFoundException();
-        User existingUser = userRepository.findByUsername(username).get();
-        if (!user.getUsername().isEmpty()) {
-            existingUser.setUsername(user.getUsername());
+    public void partialUpdateUser (String username, User newUser) {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (!(newUser.getUsername()==null) && !newUser.getUsername().isEmpty()) {
+                user.setUsername(newUser.getUsername());
+            }
+            if (!(newUser.getEmail()==null) && !newUser.getEmail().isEmpty()) {
+                user.setEmail(newUser.getEmail());
+            }
+            if (!(newUser.getPassword()==null) && !newUser.getPassword().isEmpty()) {
+                user.setPassword(newUser.getPassword());
+            }
+            if (!(newUser.getAdmin()==null) && !newUser.getAdmin() == user.getAdmin()) {
+                user.setAdmin(newUser.getAdmin());
+            }
+            userRepository.save(user);
+        } else {
+            throw new UserNotFoundException(username);
         }
-        if (!user.getEmail().isEmpty()) {
-            existingUser.setEmail(user.getEmail());
-        }
-        if (!user.getPassword().isEmpty()) {
-            existingUser.setPassword(user.getPassword());
-        }
-//        TODO: checken of dit werkt met een boolean
-        if (!user.getAdmin() == existingUser.getAdmin()) {
-            existingUser.setAdmin(user.getAdmin());
-        }
-        userRepository.save(user);
+
     }
 
 
