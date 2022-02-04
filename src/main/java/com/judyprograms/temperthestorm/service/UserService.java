@@ -1,5 +1,6 @@
 package com.judyprograms.temperthestorm.service;
 
+import com.judyprograms.temperthestorm.dto.UserRequestDto;
 import com.judyprograms.temperthestorm.exception.InvalidPasswordException;
 import com.judyprograms.temperthestorm.exception.RecordNotFoundException;
 import com.judyprograms.temperthestorm.exception.UserNotFoundException;
@@ -32,15 +33,30 @@ public class UserService {
         else throw new UserNotFoundException(username);
     }
 
-    public String createUser(User user) {
-//        HOE KAN IK HIER EEN DEFAULT WAARDEN PLAYER INITIALISEREN?
+    public String createUser(UserRequestDto userRequestDto, Boolean admin) {
+
+        //        HOE KAN IK HIER EEN DEFAULT WAARDEN PLAYER INITIALISEREN?
 //        Player newPlayer = new Player();
 //        user.setPlayer(newPlayer);
 //        Dit moet zo: user.setLevel
 //        Kun je hiervoor de players repository met autowired gebruiken? Player newPlayer = playerRepository.save(player)?
 //        > Zie vraag in college 18/11/21 @1:07:38
-        User savedUser = userRepository.save(user);
-        return savedUser.getUsername();
+
+//        TODO: Password validation
+
+        String newUsername = userRequestDto.getUsername();
+        if (userRepository.findByUsername(newUsername).isPresent()) {
+            throw new RuntimeException("username already exists");
+        }
+
+        User user = new User();
+        user.setUsername(userRequestDto.getUsername());
+        user.setEmail(userRequestDto.getEmail());
+        user.setPassword(userRequestDto.getPassword());
+        user.setAdmin(admin);
+
+        User newUser = userRepository.save(user);
+        return newUser.getUsername();
     }
 
     @Transactional
@@ -167,35 +183,6 @@ public class UserService {
 //            throw new BadRequestException("Cannot create user.");
 //        }
 //
-//    }
-
-
-//    VOORBEELDEN UIT BEGIN, TOEN NOG IN CONTROLLER:
-//
-//    ZOEKEN/FILTEREN op alle users met bepaalde username:
-//    @GetMapping("/users")
-//    public ResponseEntity getAllUsers(@RequestParam(required = false) String username) {
-//        Iterable<User> users = userRepository.findAll();
-//        if (username == null) {
-//            return ResponseEntity.ok(users);
-//        } else {
-//            return ResponseEntity.ok(
-//                    StreamSupport.stream(users.spliterator(), false)
-//                            .filter(user -> user.username.equalsIgnoreCase(username))
-//                            .toArray()
-//            );
-//        }
-//    }
-//
-//    RECORD NOT FOUND:
-//    @GetMapping("/users/{id}")
-//    public ResponseEntity getUser(@PathVariable long id) {
-//      try {
-//        Optional<User> user = userRepository.findById(id);
-//        return ResponseEntity.ok(user);
-//      } catch (Exception ex) {
-//        throw new RecordNotFoundException();
-//      }
 //    }
 
 

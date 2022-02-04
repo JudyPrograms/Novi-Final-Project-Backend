@@ -1,5 +1,6 @@
 package com.judyprograms.temperthestorm.controller;
 
+import com.judyprograms.temperthestorm.dto.UserRequestDto;
 import com.judyprograms.temperthestorm.model.User;
 import com.judyprograms.temperthestorm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 //@CrossOrigin(Origins ="http://localhost:3000")
@@ -27,9 +29,9 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<Object> createUser(@RequestBody User user) {
+    public ResponseEntity<Object> createUser(@Valid @RequestBody UserRequestDto userRequestDto, @RequestParam(defaultValue="false") Boolean admin) {
 
-        String newUsername = userService.createUser(user);
+        String newUsername = userService.createUser(userRequestDto, admin);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}").buildAndExpand(newUsername).toUri();
 
         return ResponseEntity.created(location).build();
