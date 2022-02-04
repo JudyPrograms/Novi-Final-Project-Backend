@@ -1,7 +1,9 @@
 package com.judyprograms.temperthestorm.dto;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.validation.annotation.Validated;
 
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.*;
 import java.util.List;
 

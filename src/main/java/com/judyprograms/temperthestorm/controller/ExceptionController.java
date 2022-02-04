@@ -1,6 +1,7 @@
 package com.judyprograms.temperthestorm.controller;
 
 import com.judyprograms.temperthestorm.exception.InvalidPasswordException;
+import com.judyprograms.temperthestorm.exception.NotUniqueException;
 import com.judyprograms.temperthestorm.exception.RecordNotFoundException;
 import com.judyprograms.temperthestorm.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,12 @@ public class ExceptionController {
     @ExceptionHandler(value = UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String userNotFoundException(Exception exception) {
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(value = NotUniqueException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String notUniqueException(Exception exception) {
         return exception.getMessage();
     }
 

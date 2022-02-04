@@ -2,6 +2,7 @@ package com.judyprograms.temperthestorm.service;
 
 import com.judyprograms.temperthestorm.dto.UserRequestDto;
 import com.judyprograms.temperthestorm.exception.InvalidPasswordException;
+import com.judyprograms.temperthestorm.exception.NotUniqueException;
 import com.judyprograms.temperthestorm.exception.RecordNotFoundException;
 import com.judyprograms.temperthestorm.exception.UserNotFoundException;
 import com.judyprograms.temperthestorm.model.Player;
@@ -45,18 +46,24 @@ public class UserService {
 //        TODO: Password validation
 
         String newUsername = userRequestDto.getUsername();
+        String newEmail = userRequestDto.getEmail();
         if (userRepository.findByUsername(newUsername).isPresent()) {
-            throw new RuntimeException("username already exists");
+            throw new NotUniqueException("Username already exists, unique username required.");
+        } else if (userRepository.findByEmail(newEmail).isPresent()) {
+            throw new NotUniqueException("Email already exists, unique email required.");
         }
 
-        User user = new User();
-        user.setUsername(userRequestDto.getUsername());
-        user.setEmail(userRequestDto.getEmail());
-        user.setPassword(userRequestDto.getPassword());
-        user.setAdmin(admin);
+        else {
 
-        User newUser = userRepository.save(user);
-        return newUser.getUsername();
+            User user = new User();
+            user.setUsername(userRequestDto.getUsername());
+            user.setEmail(userRequestDto.getEmail());
+            user.setPassword(userRequestDto.getPassword());
+            user.setAdmin(admin);
+
+            User newUser = userRepository.save(user);
+            return newUser.getUsername();
+        }
     }
 
     @Transactional
