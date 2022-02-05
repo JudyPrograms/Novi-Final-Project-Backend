@@ -30,13 +30,13 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             return userRepository.findByUsername(username);
+        } else {
+            throw new UserNotFoundException(username);
         }
-        else throw new UserNotFoundException(username);
     }
 
     public String createUser(UserRequestDto userRequestDto, Boolean admin) {
-
-        //        HOE KAN IK HIER EEN DEFAULT WAARDEN PLAYER INITIALISEREN?
+//        HOE KAN IK HIER EEN DEFAULT WAARDEN PLAYER INITIALISEREN?
 //        Player newPlayer = new Player();
 //        user.setPlayer(newPlayer);
 //        Dit moet zo: user.setLevel
@@ -51,9 +51,7 @@ public class UserService {
             throw new NotUniqueException("Username already exists, unique username required.");
         } else if (userRepository.findByEmail(newEmail).isPresent()) {
             throw new NotUniqueException("Email already exists, unique email required.");
-        }
-
-        else {
+        } else {
 
             User user = new User();
             user.setUsername(userRequestDto.getUsername());
