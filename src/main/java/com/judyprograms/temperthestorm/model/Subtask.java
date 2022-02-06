@@ -9,8 +9,6 @@ public class Subtask {
     public long id;
     public String subtaskName;
 
-    public Badge badge;
-
 //    @ManyToOne
     public MainTask mainTask;
 

@@ -25,10 +25,9 @@ public class User {
     @Column
     private Boolean isAdmin;
 
-//    @OneToOne(mappedBy = "user",  cascade = CascadeType.ALL)
-//    @PrimaryKeyJoinColumn
-//    @JsonBackReference
-//    private Player player;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
+    private Player player;
 
 
     // GETTERS & SETTERS
@@ -72,12 +71,12 @@ public class User {
     public void setAdmin(Boolean admin) {
         isAdmin = admin;
     }
-//
-//    public Player getPlayer() {
-//        return player;
-//    }
-//
-//    public void setPlayer(Player player) {
-//        this.player = player;
-//    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 }

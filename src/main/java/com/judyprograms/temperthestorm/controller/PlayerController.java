@@ -29,11 +29,11 @@ public class PlayerController {
         return ResponseEntity.ok().body(playerService.getPlayer(id));
     }
 
-    @PostMapping("/players/{id}")
-    public ResponseEntity<Object> createPlayer(@PathVariable Long id) {
+    @PostMapping("/players/{userId}")
+    public ResponseEntity<Object> createPlayer(Long userId) {
 
-        Long newPlayerId = playerService.createPlayer(id);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newPlayerId).toUri();
+        Long newPlayerId = playerService.createPlayer(userId);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{userId}").buildAndExpand(newPlayerId).toUri();
 
         return ResponseEntity.created(location).build();
     }

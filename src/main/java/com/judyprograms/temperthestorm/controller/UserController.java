@@ -28,6 +28,11 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUser(username));
     }
 
+    @GetMapping("/users/{userId}/players")
+    public ResponseEntity<Object> getUserPlayer(@PathVariable Long userId) {
+        return ResponseEntity.ok().body(userService.getUserPlayer(userId));
+    }
+
     @PostMapping("/users")
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserRequestDto userRequestDto, @RequestParam(defaultValue="false") Boolean admin) {
 

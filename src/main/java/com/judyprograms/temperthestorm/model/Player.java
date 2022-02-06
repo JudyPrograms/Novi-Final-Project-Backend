@@ -6,11 +6,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "players")
-public class Player extends User {
+public class Player {
 
-//    @Id
-//    @Column(name = "user_id")
-//    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column
     private Long totalPoints;
@@ -31,14 +31,17 @@ public class Player extends User {
 //    @OneToMany
 //    private List<Slice> completedSlices = new ArrayList<>();
 
-//    @OneToOne
-//    @MapsId
-//    @JoinColumn(name = "user_id")
-//    @JsonManagedReference
-//    private User user;
-
 
     //  GETTERS & SETTERS
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getTotalPoints() {
         return totalPoints;
@@ -47,4 +50,5 @@ public class Player extends User {
     public void setTotalPoints(Long totalPoints) {
         this.totalPoints = totalPoints;
     }
+
 }

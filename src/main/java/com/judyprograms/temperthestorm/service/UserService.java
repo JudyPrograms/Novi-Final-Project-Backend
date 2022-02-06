@@ -7,6 +7,7 @@ import com.judyprograms.temperthestorm.exception.RecordNotFoundException;
 import com.judyprograms.temperthestorm.exception.UserNotFoundException;
 import com.judyprograms.temperthestorm.model.Player;
 import com.judyprograms.temperthestorm.model.User;
+import com.judyprograms.temperthestorm.repository.PlayerRepository;
 import com.judyprograms.temperthestorm.repository.UserRepository;
 import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
 
     public Iterable<User> getUsers() {
         return userRepository.findAll();
@@ -32,6 +35,21 @@ public class UserService {
             return userRepository.findByUsername(username);
         } else {
             throw new UserNotFoundException(username);
+        }
+    }
+
+    public Optional<Player> getUserPlayer(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (!(user.getPlayer()==null)) {
+                Player player = user.getPlayer();
+                return playerRepository.findById(player.getId());
+            } else {
+                throw new RecordNotFoundException();
+            }
+        } else {
+            throw new UserNotFoundException();
         }
     }
 
@@ -59,7 +77,11 @@ public class UserService {
             user.setPassword(userRequestDto.getPassword());
             user.setAdmin(admin);
 
+            Player newPlayer = new Player();
+            user.setPlayer(newPlayer);
+
             User newUser = userRepository.save(user);
+
             return newUser.getUsername();
         }
     }

@@ -31,21 +31,16 @@ public class PlayerService {
         }
     }
 
-    public Long createPlayer(Long id){
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            Player player = new Player();
-            player.setId(id);
-            player.setTotalPoints(0L);
+    public Long createPlayer(Long userId) {
+        Player player = new Player();
+        player.setId(userId);
+        player.setTotalPoints(0L);
 //            player.setLevel(newPlayer.getLevel());
 //            player.setAvatar(newPlayer.getAvatar());
 //            player.setCurrentSlices(newPlayer.getCurrentSlices());
 //            player.setCompletedSlices(newPlayer.getCompletedSlices());
-            Player newPlayer = playerRepository.save(player);
-            return newPlayer.getId();
-        } else {
-         throw new RecordNotFoundException();
-        }
+        Player newPlayer = playerRepository.save(player);
+        return newPlayer.getId();
     }
 
     public void updatePlayer(Long id, Player newPlayer) {
