@@ -1,11 +1,8 @@
 package com.judyprograms.temperthestorm.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import javax.persistence.*;
+
 
 @Entity
 @Table(name = "users")
@@ -14,9 +11,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false, unique = true)
@@ -26,21 +23,20 @@ public class User {
     private String password;
 
     @Column
-    private Boolean admin;
+    private Boolean isAdmin;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    @JsonBackReference
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
     private Player player;
 
 
-    // /////// GETTERS & SETTERS
+    // GETTERS & SETTERS
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -69,11 +65,11 @@ public class User {
     }
 
     public Boolean getAdmin() {
-        return admin;
+        return isAdmin;
     }
 
     public void setAdmin(Boolean admin) {
-        this.admin = admin;
+        isAdmin = admin;
     }
 
     public Player getPlayer() {

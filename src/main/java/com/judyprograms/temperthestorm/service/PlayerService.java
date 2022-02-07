@@ -1,7 +1,10 @@
 package com.judyprograms.temperthestorm.service;
 
+import com.judyprograms.temperthestorm.exception.RecordNotFoundException;
 import com.judyprograms.temperthestorm.model.Player;
+import com.judyprograms.temperthestorm.model.User;
 import com.judyprograms.temperthestorm.repository.PlayerRepository;
+import com.judyprograms.temperthestorm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,44 +15,46 @@ public class PlayerService {
 
     @Autowired
     private PlayerRepository playerRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public Optional<Player> getPlayer(long id) {
-        return playerRepository.findById(id);
+    public Iterable<Player> getPlayers() {
+        return playerRepository.findAll();
     }
 
-    public String createPlayer(long userId) {
+    public Optional<Player> getPlayer(Long id) {
+        Optional<Player> optionalPlayer = playerRepository.findById(id);
+        if (optionalPlayer.isPresent()) {
+            return playerRepository.findById(id);
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+
+    public Long createPlayer(Long userId) {
         Player player = new Player();
         player.setId(userId);
-        Player savedPlayer = playerRepository.save(player);
-        return (savedPlayer.getAvatar().getName());
+        player.setTotalPoints(0L);
+//            player.setLevel(newPlayer.getLevel());
+//            player.setAvatar(newPlayer.getAvatar());
+//            player.setCurrentSlices(newPlayer.getCurrentSlices());
+//            player.setCompletedSlices(newPlayer.getCompletedSlices());
+        Player newPlayer = playerRepository.save(player);
+        return newPlayer.getId();
     }
 
-//    Een user met 'lege' player die al aan elkaar gekoppeld zijn (?) of anders
-//    eerst gekoppeld moet worden, van die user de player waardes initiëren:
-    public String updateNewPlayer(long id, Player newPlayer) {
-        Optional<Player> playerOptional = getPlayer(id);
-        Player player = playerOptional.get();
-        player.setTotalPoints(0);
-        player.setSubtaskCount(0);
-//        player.setLevel;
-//        player.setAvatar;
-        playerRepository.save(player);
-        return "player updated";
-    }
-
-    public void updatePlayer(long userId, Player newPlayer) {
-        Optional<Player> playerOptional = playerRepository.findById(userId);
-        if (playerOptional.isEmpty()) {
-//            throw new PlayerNotFoundException(userId);
-        } else {
-            Player player = playerOptional.get();
+    public void updatePlayer(Long id, Player newPlayer) {
+        Optional<Player> optionalPlayer = playerRepository.findById(id);
+        if (optionalPlayer.isPresent()) {
+            Player player = optionalPlayer.get();
             player.setTotalPoints(newPlayer.getTotalPoints());
 //            player.setLevel(newPlayer.getLevel());
 //            player.setAvatar(newPlayer.getAvatar());
 //            player.setCurrentSlices(newPlayer.getCurrentSlices());
 //            player.setCompletedSlices(newPlayer.getCompletedSlices());
-            player.setSubtaskCount(newPlayer.getSubtaskCount());
             playerRepository.save(player);
+        } else {
+            throw new RecordNotFoundException();
         }
     }
 }

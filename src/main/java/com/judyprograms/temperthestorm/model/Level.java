@@ -1,10 +1,6 @@
 package com.judyprograms.temperthestorm.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "levels")
@@ -12,39 +8,39 @@ public class Level {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "level_id")
-    private long id;
+//    @Column(name = "level_id")
+    private Long id;
 
     @Column
-    private long number;
+    private Long levelNumber;
 
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "level",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    @JsonBackReference
-    private List<Player> players;
+//    @OneToMany(mappedBy = "level",
+//            fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    @JsonBackReference
+//    @JsonIgnore
+//    private List<Player> players;
 
 
-    // /////// GETTERS & SETTERS
+// /////// GETTERS & SETTERS
 
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getNumber() {
-        return number;
+    public Long getLevelNumber() {
+        return levelNumber;
     }
 
-    public void setNumber(long number) {
-        this.number = number;
+    public void setLevelNumber(Long levelNumber) {
+        this.levelNumber = levelNumber;
     }
 
     public String getName() {
