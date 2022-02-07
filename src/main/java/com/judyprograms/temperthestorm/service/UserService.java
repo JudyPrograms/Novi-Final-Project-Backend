@@ -54,14 +54,8 @@ public class UserService {
     }
 
     public String createUser(UserRequestDto userRequestDto, Boolean admin) {
-//        HOE KAN IK HIER EEN DEFAULT WAARDEN PLAYER INITIALISEREN?
-//        Player newPlayer = new Player();
-//        user.setPlayer(newPlayer);
-//        Dit moet zo: user.setLevel
-//        Kun je hiervoor de players repository met autowired gebruiken? Player newPlayer = playerRepository.save(player)?
-//        > Zie vraag in college 18/11/21 @1:07:38
 
-//        TODO: Password validation
+//  TODO: Password validation
 
         String newUsername = userRequestDto.getUsername();
         String newEmail = userRequestDto.getEmail();
@@ -77,6 +71,8 @@ public class UserService {
             user.setPassword(userRequestDto.getPassword());
             user.setAdmin(admin);
 
+//  TODO: Hoe kan ik een player met specifieke default waarden initialiseren?
+//  TODO: Kan ik daarvoor de 'createPlayer' methode uit de PlayerController aanroepen?
             Player newPlayer = new Player();
             user.setPlayer(newPlayer);
 
